@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://www.truism.top/images/OpenResty%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
 <meta property="og:image" content="http://www.truism.top/images/content_by_lua_file.png">
 <meta property="article:published_time" content="2023-12-01T06:18:40.000Z">
-<meta property="article:modified_time" content="2023-12-01T10:34:27.205Z">
+<meta property="article:modified_time" content="2023-12-01T10:39:54.123Z">
 <meta property="article:author" content="liliuming">
 <meta property="article:tag" content="Lua">
 <meta name="twitter:card" content="summary">
@@ -240,6 +240,39 @@
 <li>header_filter_by_lua：应答头过滤处理；</li>
 <li>body_filter_by_lua：应答体过滤处理；</li>
 <li>log_by_lua：日志记录。</li>
+</ul>
+<p>下面是具体的配置场景可以支持的指令</p>
+<p>当然可以。以下是一个表格，列出了在 Nginx 配置的不同上下文（块）中可以使用的 <code>by_lua</code> 指令：</p>
+<table>
+<thead>
+<tr>
+<th>Nginx 上下文（块）</th>
+<th>可用的 <code>by_lua</code> 指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>http</code></td>
+<td><code>init_by_lua</code><br><code>init_worker_by_lua</code><br><code>set_by_lua</code><br><code>rewrite_by_lua</code><br><code>access_by_lua</code><br><code>content_by_lua</code><br><code>header_filter_by_lua</code><br><code>body_filter_by_lua</code><br><code>log_by_lua</code></td>
+</tr>
+<tr>
+<td><code>server</code></td>
+<td><code>set_by_lua</code><br><code>rewrite_by_lua</code><br><code>access_by_lua</code><br><code>content_by_lua</code><br><code>header_filter_by_lua</code><br><code>body_filter_by_lua</code><br><code>log_by_lua</code></td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td><code>set_by_lua</code><br><code>rewrite_by_lua</code><br><code>access_by_lua</code><br><code>content_by_lua</code><br><code>header_filter_by_lua</code><br><code>body_filter_by_lua</code><br><code>log_by_lua</code></td>
+</tr>
+<tr>
+<td><code>if</code> in <code>server</code></td>
+<td><code>set_by_lua</code><br><code>rewrite_by_lua</code><br><code>access_by_lua</code><br><code>content_by_lua</code></td>
+</tr>
+</tbody></table>
+<p>请注意以下几点：</p>
+<ul>
+<li><code>init_by_lua</code> 和 <code>init_worker_by_lua</code> 只能在 <code>http</code> 块中使用。</li>
+<li><code>set_by_lua*</code>, <code>rewrite_by_lua*</code>, <code>access_by_lua*</code>, <code>content_by_lua*</code>, <code>header_filter_by_lua*</code>, <code>body_filter_by_lua*</code>, 和 <code>log_by_lua*</code> 指令可以在 <code>http</code>, <code>server</code>, 和 <code>location</code> 块中使用。</li>
+<li>在 <code>if</code> 块中（它必须位于 <code>server</code> 块内），可以使用部分 <code>by_lua</code> 指令，但使用时需要格外小心，因为 <code>if</code> 有其特殊的执行方式和限制。</li>
+<li><code>*_by_lua_block</code> 和 <code>*_by_lua_file</code> 是相应指令的两种不同写法，用于直接嵌入 Lua 代码或指向一个包含 Lua 代码的文件。</li>
 </ul>
 <p>参考资料</p>
 <ul>
