@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>CDN初探</title>
+      <link href="/2023/11/30/web/CDN%E5%88%9D%E6%8E%A2/"/>
+      <url>/2023/11/30/web/CDN%E5%88%9D%E6%8E%A2/</url>
+      
+        <content type="html"><![CDATA[<p>今天上班在看服务部署相关的内容，因为涉及到CDN部署相关的内容，因此去了解了一下CDN的原理，在此也记录一下</p><h2 id="了解CDN"><a href="#了解CDN" class="headerlink" title="了解CDN"></a>了解CDN</h2><p>CDN翻译过来为Content Delivery Network，即内容分发网络。它是一种分布式网络，主要目的是通过地理上分散的服务器群来提供更快速、更可靠的访问网页和其他互联网内容的服务。当用户尝试访问使用CDN服务的网站时，CDN会根据用户的地理位置，将请求重定向到最近的服务器上，这样可以减少延迟，提高加载速度，同时减轻原始服务器的负载。</p><h2 id="CDN的工作原理"><a href="#CDN的工作原理" class="headerlink" title="CDN的工作原理"></a>CDN的工作原理</h2><p>CDN供应商通常会在全球范围内部署一系列的数据中心，这些数据中心的服务器上往往也是存储用户的静态数据。CDN需要有一个中央节点，它与源服务器连接，当源服务器上的静态内容需要通过CDN分发时，中央节点会把这些内容分发到那些边缘节点，或者是用户请求到了CDN服务器后，会从源服务器拉取静态数据。</p><p><img src="/images/image-20231130234449430.png" alt="image-20231130234449430.png"></p><p>而当用户访问源服务器时，经过DNS服务器解析时，这个时候会返回CDN的全局负载均衡服务器，然后全局负载均衡服务器就拿到了用户的IP，就可以计算用户具体的位置，然后CDN会经过各种条件的复杂计算，为用户选取一个最优的边缘服务器节点让用户去访问。</p><p><img src="/images/image-20231130234953524.png" alt="image-20231130234953524"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CDN </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
