@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="GO vs Java 最近一直在学习K8S，不得不说，K8S确实是复杂，概念太多了，而且搭建一个生产级别的K8S集群也不容易。不过今天要说的主角不是K8S，而是GO这门语言，为什么我会去开始关注GO呢？其实在大学期间我学习编程入门的时候就了解到有这么一门语言，但是那时候太懵懂，只知道Java好就业，所以就没怎么关注，而现在因为需要学习K8S，看一些书籍和博客经常看到GO语言的代码，所以想着我也先浅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go vs Java">
+<meta property="og:url" content="http://www.truism.top/2023/12/04/Go-vs-Java/index.html">
+<meta property="og:site_name" content="Truism World">
+<meta property="og:description" content="GO vs Java 最近一直在学习K8S，不得不说，K8S确实是复杂，概念太多了，而且搭建一个生产级别的K8S集群也不容易。不过今天要说的主角不是K8S，而是GO这门语言，为什么我会去开始关注GO呢？其实在大学期间我学习编程入门的时候就了解到有这么一门语言，但是那时候太懵懂，只知道Java好就业，所以就没怎么关注，而现在因为需要学习K8S，看一些书籍和博客经常看到GO语言的代码，所以想着我也先浅">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-03T16:57:02.000Z">
+<meta property="article:modified_time" content="2023-12-03T17:15:22.657Z">
+<meta property="article:author" content="liliuming">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="../../../.././images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="../../../.././images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="../../../.././images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Go vs Java</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    <!--
+<link rel="stylesheet" href="../../../../css/style.css">
+ -->
+    <link rel="stylesheet" href="../../../.././css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="../../01/web/OpenResty%E5%88%9D%E8%AF%86/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/04/Go-vs-Java/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/04/Go-vs-Java/&text=Go vs Java"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/04/Go-vs-Java/&is_video=false&description=Go vs Java"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Go vs Java&body=Check out this article: http://www.truism.top/2023/12/04/Go-vs-Java/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/04/Go-vs-Java/&name=Go vs Java&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/04/Go-vs-Java/&t=Go vs Java"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">GO vs Java</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Go vs Java
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">liliuming</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-03T16:57:02.000Z" class="dt-published" itemprop="datePublished">2023-12-04</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="../../../../tags/Go/" rel="tag">Go</a>, <a class="p-category" href="../../../../tags/Java/" rel="tag">Java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1>GO vs Java</h1>
+<p>最近一直在学习K8S，不得不说，K8S确实是复杂，概念太多了，而且搭建一个生产级别的K8S集群也不容易。不过今天要说的主角不是K8S，而是GO这门语言，为什么我会去开始关注GO呢？其实在大学期间我学习编程入门的时候就了解到有这么一门语言，但是那时候太懵懂，只知道Java好就业，所以就没怎么关注，而现在因为需要学习K8S，看一些书籍和博客经常看到GO语言的代码，所以想着我也先浅浅入个门，<strong>首先定个目标就是能够读懂别人写的代码</strong>。</p>
+<p>而在正式开始学习GO语言之前，我还是想先了解一下GO与Java的对比，毕竟在国内Java的市占率还是非常高的。我去GO官网看了一下，没找到我想找的信息，在网上搜了一下，看到了很多其他博主分享的文章，都很正确，而我就从我了解到的这些信息中说说我认识到的GO与Java的对比。</p>
+<p>Go相对于Java的一些优势：</p>
+<ol>
+<li>
+<p><strong>编译速度和执行速度：</strong></p>
+<ul>
+<li>Go的编译速度非常快，这使得开发者能够更快地进行迭代和测试。</li>
+<li>Go的执行速度也相对较快，这使得它适用于高性能的服务器端应用程序。</li>
+</ul>
+</li>
+<li>
+<p><strong>并发支持：</strong></p>
+<ul>
+<li>Go在语言级别提供了轻量级的协程（goroutines）和通道（channels），这使得并发编程更加容易。这对于编写高并发的网络服务和并行处理任务非常有用。</li>
+<li>Java也有并发支持，但Go的并发模型更为简单和直观。</li>
+</ul>
+</li>
+<li>
+<p><strong>内存管理：</strong></p>
+<ul>
+<li>Go的垃圾回收器（Garbage Collector）设计用于高效地管理内存，减少了程序员在内存管理方面的工作负担。</li>
+<li>Java也有垃圾回收，但Go的垃圾回收器通常被认为是更为高效的。</li>
+</ul>
+</li>
+<li>
+<p><strong>静态链接：</strong></p>
+<ul>
+<li>Go的可执行文件通常是静态链接的，这意味着你可以轻松地将一个可执行文件部署到其他机器，而无需考虑运行时库的版本问题。</li>
+<li>Java则通常以字节码形式运行在Java虚拟机（JVM）上，这需要目标机器上有相应版本的Java运行时环境。</li>
+</ul>
+</li>
+<li>
+<p><strong>简洁的语法：</strong></p>
+<ul>
+<li>Go的语法相对简洁，学习曲线较为平缓，代码通常更具可读性(但是这一点估计需要等到把GO语言学习到中等水平才行)。</li>
+<li>Java的语法相对较为繁琐，尤其在早期版本中，需要更多的代码来完成相同的任务。</li>
+</ul>
+</li>
+<li>
+<p><strong>自包含的可执行文件：</strong></p>
+<ul>
+<li>Go的编译器会将程序及其依赖项静态链接到一个单独的可执行文件中，这使得部署和分发应用程序更为简单。</li>
+<li>Java应用程序通常依赖于特定版本的Java运行时环境，需要在目标机器上安装相应的Java虚拟机。</li>
+</ul>
+</li>
+<li>
+<p><strong>适用于云原生开发：</strong></p>
+<ul>
+<li>Go语言在云原生开发中得到了广泛应用，特别适合构建微服务和容器化应用。</li>
+<li>Java也可以用于云原生开发，但Go更轻量，更符合一些云原生应用的需求。</li>
+</ul>
+</li>
+</ol>
+<p>上面是GO语言的一些优势，但是Java也有其自身的优势</p>
+<p>1.<strong>跨平台</strong>:</p>
+<p>2.<strong>成熟的生态和大量的库</strong></p>
+<p>3.<strong>在大型应用上项目可维护性更佳</strong></p>
+<p>4.<strong>从团队角度出发更容易招人，换句话说项目的风险系数更低，当然这点和公司平台有很大的关系，你像字节这种应该就不会怎么care这一点</strong></p>
+<p>虽然GO与Java各有优劣，但是从一位技术人角度出发，在云原生时代，学习一下GO语言还是很有必要的，从心出发，加油！</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="../../../../index.html">首页</a></li>
+        
+          <li><a href="../../../../about/">关于</a></li>
+        
+          <li><a href="../../../../archives/">归档</a></li>
+        
+          <li><a href="../../../../tags/">标签</a></li>
+        
+          <li><a href="../../../../categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li>
+        
+          <li><a href="../../../../search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">GO vs Java</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/04/Go-vs-Java/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/04/Go-vs-Java/&text=Go vs Java"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/04/Go-vs-Java/&is_video=false&description=Go vs Java"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Go vs Java&body=Check out this article: http://www.truism.top/2023/12/04/Go-vs-Java/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/04/Go-vs-Java/&title=Go vs Java"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/04/Go-vs-Java/&name=Go vs Java&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/04/Go-vs-Java/&t=Go vs Java"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    liliuming
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<!--
+<script src="../../../../js/main.js"></script>
+-->
+<script src="../../../.././js/main.js"></script>
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
