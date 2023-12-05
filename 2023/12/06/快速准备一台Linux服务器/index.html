@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="安装VritualBox 官网下载进行安装：VirtualBox 下载Centos镜像 选择阿里云镜像站进行下载：Centos7 安装虚拟机 1、新建虚拟机  2、选择下载好的Centos镜像并设置虚拟机名称，选择安装的位置  3、选择自己预期的内存大小和CPU核数以及磁盘大小    至此，虚拟机已经初步设置好了，下一步就是需要我们手动安装操作系统。 安装操作系统并初始化设置 双击安装好的虚拟机打">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速准备一台Linux服务器">
+<meta property="og:url" content="http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
+<meta property="og:site_name" content="Truism World">
+<meta property="og:description" content="安装VritualBox 官网下载进行安装：VirtualBox 下载Centos镜像 选择阿里云镜像站进行下载：Centos7 安装虚拟机 1、新建虚拟机  2、选择下载好的Centos镜像并设置虚拟机名称，选择安装的位置  3、选择自己预期的内存大小和CPU核数以及磁盘大小    至此，虚拟机已经初步设置好了，下一步就是需要我们手动安装操作系统。 安装操作系统并初始化设置 双击安装好的虚拟机打">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux01.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux02.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux03.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux04.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux05.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux06.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux07.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux08.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux09.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux10.png">
+<meta property="og:image" content="http://www.truism.top/images/PrepareLinux11.png">
+<meta property="article:published_time" content="2023-12-05T16:42:30.000Z">
+<meta property="article:modified_time" content="2023-12-05T17:23:44.576Z">
+<meta property="article:author" content="liliuming">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.truism.top/images/PrepareLinux01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="../../../.././images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="../../../.././images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="../../../.././images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>快速准备一台Linux服务器</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    <!--
+<link rel="stylesheet" href="../../../../css/style.css">
+ -->
+    <link rel="stylesheet" href="../../../.././css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="../../04/Go-vs-Java/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&text=快速准备一台Linux服务器"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&is_video=false&description=快速准备一台Linux服务器"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=快速准备一台Linux服务器&body=Check out this article: http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=快速准备一台Linux服务器&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&t=快速准备一台Linux服务器"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">安装VritualBox</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">下载Centos镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">安装虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">1、新建虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%80%89%E6%8B%A9%E4%B8%8B%E8%BD%BD%E5%A5%BD%E7%9A%84Centos%E9%95%9C%E5%83%8F%E5%B9%B6%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8D%E7%A7%B0%EF%BC%8C%E9%80%89%E6%8B%A9%E5%AE%89%E8%A3%85%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">2、选择下载好的Centos镜像并设置虚拟机名称，选择安装的位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E9%80%89%E6%8B%A9%E8%87%AA%E5%B7%B1%E9%A2%84%E6%9C%9F%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E5%92%8CCPU%E6%A0%B8%E6%95%B0%E4%BB%A5%E5%8F%8A%E7%A3%81%E7%9B%98%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.3.</span> <span class="toc-text">3、选择自己预期的内存大小和CPU核数以及磁盘大小</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">安装操作系统并初始化设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">安装必要软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%97%ADSELinux"><span class="toc-number">4.2.</span> <span class="toc-text">关闭SELinux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">4.3.</span> <span class="toc-text">设置虚拟机网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-number">4.4.</span> <span class="toc-text">修改主机名</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        快速准备一台Linux服务器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">liliuming</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-05T16:42:30.000Z" class="dt-published" itemprop="datePublished">2023-12-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="../../../../tags/Linux/" rel="tag">Linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1>安装VritualBox</h1>
+<p>官网下载进行安装：<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
+<h1>下载Centos镜像</h1>
+<p>选择阿里云镜像站进行下载：<a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/centos/7/isos/x86_64/">Centos7</a></p>
+<h1>安装虚拟机</h1>
+<h2 id="1、新建虚拟机">1、新建虚拟机</h2>
+<p><img src="/images/PrepareLinux01.png" alt=""></p>
+<h2 id="2、选择下载好的Centos镜像并设置虚拟机名称，选择安装的位置">2、选择下载好的Centos镜像并设置虚拟机名称，选择安装的位置</h2>
+<p><img src="/images/PrepareLinux02.png" alt=""></p>
+<h2 id="3、选择自己预期的内存大小和CPU核数以及磁盘大小">3、选择自己预期的内存大小和CPU核数以及磁盘大小</h2>
+<p><img src="/images/PrepareLinux03.png" alt=""></p>
+<p><img src="/images/PrepareLinux04.png" alt=""></p>
+<p><img src="/images/PrepareLinux05.png" alt=""></p>
+<p>至此，虚拟机已经初步设置好了，下一步就是需要我们手动安装操作系统。</p>
+<h1>安装操作系统并初始化设置</h1>
+<p>双击安装好的虚拟机打开，如下图：</p>
+<p><img src="/images/PrepareLinux06.png" alt=""></p>
+<p>选择图中标红的部分，测试并安装，然后等待系统初始化完成。初始化完成以后如下图：</p>
+<p><img src="/images/PrepareLinux07.png" alt=""></p>
+<p>注意：我们需要开启一下网络，因为后面需要通过网络安装一些软件，如下图：</p>
+<p><img src="/images/PrepareLinux08.png" alt=""></p>
+<p>然后就是设置root密码了，设置完root密码就是等待操作系统安装完成了。</p>
+<h2 id="安装必要软件">安装必要软件</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y vim net-tools</span><br></pre></td></tr></table></figure>
+<h2 id="关闭SELinux">关闭SELinux</h2>
+<p>因为SELinux通常会有更高的安全检查，为了避免麻烦，我们可以直接关闭它，然后暂时不重启，继续完成后面步骤</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/selinux/config</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认SELINUX=ENFORCING，修改为disabled</span></span><br><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
+<h2 id="设置虚拟机网络">设置虚拟机网络</h2>
+<p>因为我们需要通过虚拟机通信的，所以需要对网络做一些必要的设置。首先，选择虚拟机网络为桥接模式，如果不懂桥接模式、仅主机模式和NAT模式的区别的，建议Google一下，网上有很多的资料。</p>
+<p>在VietualBox中鼠标右击安装好的虚拟机，然后选择【设置】 -&gt; 【网络】，如下图配置</p>
+<p><img src="/images/PrepareLinux09.png" alt=""></p>
+<p>然后为虚拟机分配一个固定的IP地址，注意，这里虚拟机的IP地址与你的电脑在同一个子网中，所以网关和子网掩码与你电脑上的需要保持一致。</p>
+<p>可以先在你的电脑上执行 ipconfig命令，查看你的网卡信息，如下图</p>
+<p><img src="/images/PrepareLinux10.png" alt=""></p>
+<p>可以看到网关地址和子网掩码信息，然后就是修改虚拟机的网络配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">首先执行ifconfig，查看你的虚拟机上网卡名称，这里假设是 ens33，你需要把它替换成你自己的网卡名称</span></span><br><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+<p>默认出现如下图：</p>
+<p><img src="/images/PrepareLinux11.png" alt=""></p>
+<p>然后重点修改如下几个配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=no</span><br><span class="line">ONBOOT=yes</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">选择你自己主机电脑的一个IP</span></span><br><span class="line">IPADDR=192.168.1.106</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">根据你主机电脑所在子网设置</span></span><br><span class="line">PREFIX=24</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">根据你主机电脑所在子网设置</span></span><br><span class="line">GATEWAY=192.168.1.1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置电信的公共DNS服务器</span></span><br><span class="line">DNS1=233.5.5.5</span><br></pre></td></tr></table></figure>
+<h2 id="修改主机名">修改主机名</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+<p>输入自己的主机名</p>
+<p>然后重启，至此，已经完成一个可以正常使用的Linux服务器了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="../../../../index.html">首页</a></li>
+        
+          <li><a href="../../../../about/">关于</a></li>
+        
+          <li><a href="../../../../archives/">归档</a></li>
+        
+          <li><a href="../../../../tags/">标签</a></li>
+        
+          <li><a href="../../../../categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li>
+        
+          <li><a href="../../../../search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">安装VritualBox</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">下载Centos镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">安装虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">1、新建虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%80%89%E6%8B%A9%E4%B8%8B%E8%BD%BD%E5%A5%BD%E7%9A%84Centos%E9%95%9C%E5%83%8F%E5%B9%B6%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8D%E7%A7%B0%EF%BC%8C%E9%80%89%E6%8B%A9%E5%AE%89%E8%A3%85%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">2、选择下载好的Centos镜像并设置虚拟机名称，选择安装的位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E9%80%89%E6%8B%A9%E8%87%AA%E5%B7%B1%E9%A2%84%E6%9C%9F%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E5%92%8CCPU%E6%A0%B8%E6%95%B0%E4%BB%A5%E5%8F%8A%E7%A3%81%E7%9B%98%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.3.</span> <span class="toc-text">3、选择自己预期的内存大小和CPU核数以及磁盘大小</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">安装操作系统并初始化设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">安装必要软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%97%ADSELinux"><span class="toc-number">4.2.</span> <span class="toc-text">关闭SELinux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">4.3.</span> <span class="toc-text">设置虚拟机网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-number">4.4.</span> <span class="toc-text">修改主机名</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&text=快速准备一台Linux服务器"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&is_video=false&description=快速准备一台Linux服务器"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=快速准备一台Linux服务器&body=Check out this article: http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=快速准备一台Linux服务器"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=快速准备一台Linux服务器&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/&t=快速准备一台Linux服务器"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    liliuming
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<!--
+<script src="../../../../js/main.js"></script>
+-->
+<script src="../../../.././js/main.js"></script>
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
