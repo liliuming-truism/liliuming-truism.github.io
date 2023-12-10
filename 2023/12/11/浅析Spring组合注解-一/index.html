@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="浅析Spring组合注解(一) 在Spring框架中，注解是一种常用的元数据形式，用于配置和管理应用程序。组合注解是Spring强大功能的体现，它允许开发者将多个注解的功能组合到一个自定义注解中。本文将详细介绍Spring中组合注解的使用方法，其实现原理主要还是放到下一篇文章… 第一部分：注解简介 注解的基本概念 在Java中，注解（Annotations）是自Java 5以来引入的一种语法元素，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析Spring组合注解(一)">
+<meta property="og:url" content="http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/index.html">
+<meta property="og:site_name" content="Truism World">
+<meta property="og:description" content="浅析Spring组合注解(一) 在Spring框架中，注解是一种常用的元数据形式，用于配置和管理应用程序。组合注解是Spring强大功能的体现，它允许开发者将多个注解的功能组合到一个自定义注解中。本文将详细介绍Spring中组合注解的使用方法，其实现原理主要还是放到下一篇文章… 第一部分：注解简介 注解的基本概念 在Java中，注解（Annotations）是自Java 5以来引入的一种语法元素，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-10T16:06:29.000Z">
+<meta property="article:modified_time" content="2023-12-10T16:08:58.504Z">
+<meta property="article:author" content="liliuming">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="../../../.././images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="../../../.././images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="../../../.././images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>浅析Spring组合注解(一)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    <!--
+<link rel="stylesheet" href="../../../../css/style.css">
+ -->
+    <link rel="stylesheet" href="../../../.././css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="../%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%BA%8C/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="../../06/%E5%BF%AB%E9%80%9F%E5%87%86%E5%A4%87%E4%B8%80%E5%8F%B0Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&text=浅析Spring组合注解(一)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&is_video=false&description=浅析Spring组合注解(一)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅析Spring组合注解(一)&body=Check out this article: http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&name=浅析Spring组合注解(一)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&t=浅析Spring组合注解(一)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">浅析Spring组合注解(一)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E6%B3%A8%E8%A7%A3%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">第一部分：注解简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">注解的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E5%9C%A8Spring%E4%B8%AD%E7%9A%84%E8%A7%92%E8%89%B2"><span class="toc-number">1.1.2.</span> <span class="toc-text">注解在Spring中的角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-number">1.1.3.</span> <span class="toc-text">注解的常见用途</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">第二部分：组合注解概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">组合注解的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8D%95%E4%B8%80%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.2.2.</span> <span class="toc-text">组合注解与单一注解的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E8%A6%81%E7%82%B9%EF%BC%9A"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">对比要点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.2.3.</span> <span class="toc-text">组合注解的优势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">第三部分：组合注解的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E6%B3%A8%E8%A7%A3%EF%BC%88Meta-annotations%EF%BC%89%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">元注解（Meta-annotations）的介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.3.2.</span> <span class="toc-text">Spring如何处理组合注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AliasFor-%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">@AliasFor 注解的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">示例：创建一个组合注解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-number">1.4.</span> <span class="toc-text">第四部分：组合注解的高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E8%A6%86%E7%9B%96%E5%92%8C%E5%88%AB%E5%90%8D%E6%9C%BA%E5%88%B6"><span class="toc-number">1.4.1.</span> <span class="toc-text">属性覆盖和别名机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E8%B0%88-AliasFor-%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">再谈@AliasFor 注解的作用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E7%BB%A7%E6%89%BF%E8%A7%84%E5%88%99"><span class="toc-number">1.4.2.</span> <span class="toc-text">组合注解的继承规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E6%B3%A8%E8%A7%A3%E5%92%8C-Repeatable%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.4.3.</span> <span class="toc-text">嵌套注解和@Repeatable注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.5.</span> <span class="toc-text">第五部分：组合注解的应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%85%8D%E7%BD%AE%E7%B1%BB%EF%BC%88-Configuration%EF%BC%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. 配置类（@Configuration）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%EF%BC%88-Transactional%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. 事务管理（@Transactional）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Spring-Security%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.3.</span> <span class="toc-text">3. Spring Security中的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E9%83%A8%E5%88%86%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E5%AE%9E%E6%88%98"><span class="toc-number">1.6.</span> <span class="toc-text">第六部分：自定义组合注解实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%9A%E5%AE%9A%E4%B9%89%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.1.</span> <span class="toc-text">步骤一：定义元注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%BA%8C%EF%BC%9A%E5%88%9B%E5%BB%BA%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.2.</span> <span class="toc-text">步骤二：创建组合注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8-AliasFor%E5%A4%84%E7%90%86%E5%B1%9E%E6%80%A7%E5%88%AB%E5%90%8D"><span class="toc-number">1.6.3.</span> <span class="toc-text">步骤三：使用@AliasFor处理属性别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E5%9B%9B%EF%BC%9A%E5%BA%94%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.4.</span> <span class="toc-text">步骤四：应用自定义组合注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.6.5.</span> <span class="toc-text">代码示例</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        浅析Spring组合注解(一)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">liliuming</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-10T16:06:29.000Z" class="dt-published" itemprop="datePublished">2023-12-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="../../../../tags/Spring/" rel="tag">Spring</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1>浅析Spring组合注解(一)</h1>
+<p>在Spring框架中，注解是一种常用的元数据形式，用于配置和管理应用程序。组合注解是Spring强大功能的体现，它允许开发者将多个注解的功能组合到一个自定义注解中。本文将详细介绍Spring中组合注解的使用方法，其实现原理主要还是放到下一篇文章…</p>
+<h2 id="第一部分：注解简介">第一部分：注解简介</h2>
+<h3 id="注解的基本概念">注解的基本概念</h3>
+<p>在Java中，注解（Annotations）是自Java 5以来引入的一种语法元素，它们提供了一种为代码添加元数据的方法。这些元数据可以在编译时、类加载时或运行时被读取，并且可以影响程序的执行行为。</p>
+<p>注解本身不会直接影响操作，但它们可以被工具和库用来生成代码、处理XML文件或者在运行时提供信息。在Spring框架中，注解尤其重要，因为它们被广泛用于配置Spring应用程序的各个方面，从依赖注入到事务管理，再到安全性配置。</p>
+<h3 id="注解在Spring中的角色">注解在Spring中的角色</h3>
+<p>Spring框架使用注解来简化企业级Java应用开发。通过使用注解，开发者能够以声明性的方式处理那些通常需要繁琐配置的事情。例如，<code>@Autowired</code> 注解告诉Spring自动进行依赖注入，而无需XML配置文件。Spring的注解也支持自定义，并允许开发者创建特定的行为或配置。</p>
+<h3 id="注解的常见用途">注解的常见用途</h3>
+<p>在Spring中，注解用于多种场景：</p>
+<ul>
+<li><strong>依赖注入</strong>：<code>@Autowired</code>, <code>@Qualifier</code>, <code>@Resource</code> 等注解用于自动装配bean。</li>
+<li><strong>组件扫描</strong>：<code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code> 等注解用于自动检测和注册bean。</li>
+<li><strong>配置</strong>：<code>@Configuration</code>, <code>@Bean</code>, <code>@PropertySource</code> 等注解用于Java基础的配置。</li>
+<li><strong>事务管理</strong>：<code>@Transactional</code> 注解声明方法或类需要事务支持。</li>
+<li><strong>Web开发</strong>：<code>@RequestMapping</code>, <code>@GetMapping</code>, <code>@PostMapping</code> 等注解用于处理Web请求。</li>
+<li><strong>安全性</strong>：<code>@PreAuthorize</code>, <code>@Secured</code> 等注解用于方法级别的安全性控制。</li>
+</ul>
+<h2 id="第二部分：组合注解概念">第二部分：组合注解概念</h2>
+<h3 id="组合注解的定义">组合注解的定义</h3>
+<p>组合注解，也称为复合注解，是指将多个注解集成到一个注解中。这样做的目的是为了重用注解配置，减少重复代码，并提高配置的清晰度和可维护性。组合注解是通过在一个自定义注解上声明其他注解来实现的，这些被声明的注解称为元注解（meta-annotations）。</p>
+<h3 id="组合注解与单一注解的对比">组合注解与单一注解的对比</h3>
+<p>单一注解通常指定一个特定的行为或配置，而组合注解则可以封装多个相关的行为或配置，使得它们可以一起应用。例如，在Spring Security中，你可能会有多个与安全相关的注解如<code>@PreAuthorize</code>、<code>@Secured</code>等，通过创建一个组合注解，你可以将这些安全配置集中在一个地方。</p>
+<h4 id="对比要点：">对比要点：</h4>
+<ul>
+<li><strong>简洁性</strong>：组合注解通过减少重复的注解声明来简化类或方法上的注解堆砌。</li>
+<li><strong>可读性</strong>：组合注解清晰地表达了开发者的意图，使得代码更易于理解。</li>
+<li><strong>可维护性</strong>：更新组合注解中的元注解会影响所有使用该组合注解的地方，从而简化了维护工作。</li>
+</ul>
+<h3 id="组合注解的优势">组合注解的优势</h3>
+<p>使用组合注解主要有以下几个优势：</p>
+<ol>
+<li><strong>减少配置错误</strong>：通过预定义的组合，可以减少因手动重复配置而可能出现的错误。</li>
+<li><strong>提升开发效率</strong>：开发者可以通过创建和使用组合注解来减少重复性工作，专注于业务逻辑。</li>
+<li><strong>增强代码表达力</strong>：组合注解可以更准确地描述程序员的意图，使代码更具表现力。</li>
+<li><strong>易于跨项目共享</strong>：通用的组合注解可以在不同的项目中重用，促进了最佳实践的共享。</li>
+</ol>
+<p>在接下来的部分中，我们将深入探讨Spring如何处理组合注解以及如何设计和使用它们来改进Spring应用程序的配置。</p>
+<h2 id="第三部分：组合注解的工作原理">第三部分：组合注解的工作原理</h2>
+<h3 id="元注解（Meta-annotations）的介绍">元注解（Meta-annotations）的介绍</h3>
+<p>在Spring框架中，<strong>元注解是指那些可以应用于其他注解上的注解</strong>。这些注解不会直接提供额外的行为，而是用来影响或定义被它们标注的注解的行为。例如，<code>@Retention</code> 和 <code>@Target</code> 是Java平台本身定义的元注解，它们指定了注解的保留策略和应用目标。</p>
+<p>Spring提供了一系列自己的元注解，这些元注解在创建组合注解时扮演着关键角色。它们包括：</p>
+<ul>
+<li><code>@Component</code>：指示一个类是Spring组件。</li>
+<li><code>@Service</code>、<code>@Repository</code>、<code>@Controller</code>：特化的<code>@Component</code>注解，用于标识层次结构中的不同角色。</li>
+<li><code>@Configuration</code>：指示一个类声明了一个或多个<code>@Bean</code>方法。</li>
+<li><code>@Transactional</code>：描述事务属性的元注解。</li>
+</ul>
+<h3 id="Spring如何处理组合注解">Spring如何处理组合注解</h3>
+<p>Spring框架内部使用一套复杂的逻辑来解析和处理注解。当应用启动时，Spring会扫描类路径中的所有类，寻找带有注解的类和方法。对于组合注解，Spring会递归地查找所有元注解，并将这些信息聚合起来以构建最终的注解数据模型,这个过程确保了即使是嵌套多层的组合注解也能被正确地处理。</p>
+<p>这里感觉写不完，还是留到第二篇文章写吧…</p>
+<h3 id="AliasFor-注解的作用"><code>@AliasFor</code> 注解的作用</h3>
+<p>在定义组合注解时，经常需要在不同的注解之间共享属性。Spring提供了<code>@AliasFor</code>注解来声明属性间的关联。这允许开发者在一个注解中定义一个属性，并在另一个注解中引用它，从而避免了值的重复和潜在的不一致。</p>
+<h4 id="示例：创建一个组合注解">示例：创建一个组合注解</h4>
+<p>假设我们想要创建一个自定义的组合安全注解，我们可以这样做：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="meta">@Secured(&quot;ROLE_USER&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SecureTransactional &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = Transactional.class, attribute = &quot;readOnly&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">transactionReadOnly</span><span class="params">()</span> <span class="keyword">default</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = Secured.class, attribute = &quot;value&quot;)</span></span><br><span class="line">    String[] roles() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<code>SecureTransactional</code> 注解组合了 <code>@Transactional</code> 和 <code>@Secured</code> 注解，并提供了属性别名，以便在使用组合注解时能够设置这些属性。</p>
+<p>通过这种方式，Spring允许开发者以一种非常灵活和强大的方式来自定义和扩展框架的行为。组合注解不仅使得代码更加简洁，而且还提高了配置逻辑的复用性和整体应用程序结构的清晰度。</p>
+<p>结论：组合注解是Spring中一个强大的特性，它提供了一种优雅的方式来重用和组织复杂的配置。通过对元注解和属性别名机制的深入理解，开发者可以利用组合注解来构建更加简洁、可维护和表达力更强的Spring应用。</p>
+<h2 id="第四部分：组合注解的高级特性">第四部分：组合注解的高级特性</h2>
+<h3 id="属性覆盖和别名机制">属性覆盖和别名机制</h3>
+<p>在Spring中，组合注解不仅可以继承元注解的属性，还可以通过<code>@AliasFor</code>注解来重定义这些属性的默认值或者创建属性间的映射。这个特性允许开发者在使用组合注解时定制化属性值，而不必修改元注解本身。</p>
+<h4 id="再谈-AliasFor-注解的作用">再谈<code>@AliasFor</code> 注解的作用</h4>
+<p><code>@AliasFor</code>是一个用于声明别名关系的元注解。它可以在两个注解之间或者同一个注解内部的两个属性之间建立关联。这意味着当你设置了一个属性的值时，它的别名也会自动被设置为相同的值。这在创建具有可配置属性的组合注解时非常有用。</p>
+<p>例如，假设我们有一个自定义的<code>@WebTest</code>组合注解，它组合了<code>@SpringBootTest</code>和<code>@AutoConfigureMockMvc</code>注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@AutoConfigureMockMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebTest &#123;</span><br><span class="line">    <span class="meta">@AliasFor(annotation = SpringBootTest.class, attribute = &quot;webEnvironment&quot;)</span></span><br><span class="line">    SpringBootTest.WebEnvironment <span class="title function_">webEnvironment</span><span class="params">()</span> <span class="keyword">default</span> SpringBootTest.WebEnvironment.MOCK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们通过使用<code>@AliasFor</code>为<code>webEnvironment</code>属性创建了一个别名。这意味着当我们使用<code>@WebTest</code>注解时，我们可以设置<code>webEnvironment</code>属性，它将自动应用于<code>@SpringBootTest</code>注解。</p>
+<h3 id="组合注解的继承规则">组合注解的继承规则</h3>
+<p>Spring中的组合注解也遵循特定的继承规则。当一个组合注解被用在类、方法或接口上时，它继承的元注解也会被考虑在内。这一点特别重要，因为它意味着通过继承，你可以创建一个具有层次结构的注解体系。</p>
+<p>然而，需要注意的是，并不是所有的注解都支持继承。只有当元注解本身被标记为可继承（使用Java的<code>@Inherited</code>元注解）时，其行为才会被子类继承。在Spring中，许多核心注解并未被标记为可继承，因此在设计组合注解时需要考虑这一点，实际上，关于注解的继承和实际的搜索策略有关系，这一点会在下一篇文章的MergedAnnotations$SearchStrategy中说明。</p>
+<h3 id="嵌套注解和-Repeatable注解">嵌套注解和<code>@Repeatable</code>注解</h3>
+<p>嵌套注解是指可以在一个注解中使用其他注解作为属性。而在Java 8及更高版本中，通过使用<code>@Repeatable</code>元注解，可以在同一个声明上多次使用相同的注解。</p>
+<p>这些特性使得开发者能够更灵活地构建复杂的配置和元数据信息。例如，你可以创建一个自定义的组合注解来封装多个常用的Spring安全性配置，并且可以重复应用于不同的方法或类上，以满足复杂场景下的需求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Repeatable(Roles.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Role &#123;</span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Roles &#123;</span><br><span class="line">    Role[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述例子中，<code>@Role</code>注解可以通过<code>@Roles</code>容器注解被重复应用于同一个类或方法上。</p>
+<p>组合注解提供了一种强大的机制来简化Spring应用程序中重复和复杂配置的管理。通过利用属性覆盖、别名机制、继承规则以及嵌套和可重复使用的注解，开发者可以构建出清晰、灵活且易于维护的应用程序配置。</p>
+<h2 id="第五部分：组合注解的应用场景">第五部分：组合注解的应用场景</h2>
+<h3 id="1-配置类（-Configuration）">1. 配置类（<code>@Configuration</code>）</h3>
+<p>组合注解可以用于创建预定义的配置集，这样可以在多个地方重用相同的配置逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span></span><br><span class="line"><span class="meta">@EnableTransactionManagement</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> StandardConfig &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = ComponentScan.class, attribute = &quot;basePackages&quot;)</span></span><br><span class="line">    String[] scanBasePackages() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用组合注解</span></span><br><span class="line"><span class="meta">@StandardConfig(scanBasePackages = &quot;com.example.service&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServiceConfig</span> &#123;</span><br><span class="line">    <span class="comment">// 额外的@Bean定义可以放在这里</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<code>@StandardConfig</code> 是一个组合注解，它将配置相关的注解如 <code>@Configuration</code>, <code>@ComponentScan</code>, 和 <code>@EnableTransactionManagement</code> 结合在一起，并且允许用户通过 <code>scanBasePackages</code> 属性来定制 <code>@ComponentScan</code> 的行为。</p>
+<h3 id="2-事务管理（-Transactional）">2. 事务管理（<code>@Transactional</code>）</h3>
+<p>组合注解可以用于定义特定类型的事务行为，使得可以在整个应用中以一致的方式重用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Transactional(readOnly = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ReadOnlyTransactional &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用组合注解</span></span><br><span class="line"><span class="meta">@ReadOnlyTransactional</span></span><br><span class="line"><span class="keyword">public</span> List&lt;User&gt; <span class="title function_">findAllUsers</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>@ReadOnlyTransactional</code> 注解是一个只读事务的特化，它设置了 <code>@Transactional</code> 注解的 <code>readOnly</code> 属性为 <code>true</code>。这样，任何标记了 <code>@ReadOnlyTransactional</code> 的方法都将在只读事务上下文中执行。</p>
+<h3 id="3-Spring-Security中的使用">3. Spring Security中的使用</h3>
+<p>组合注解可以简化Spring Security的配置，特别是当多个方法需要相同安全约束时。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@PreAuthorize(&quot;hasAuthority(&#x27;ROLE_ADMIN&#x27;)&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> AdminOnly &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用组合注解</span></span><br><span class="line"><span class="meta">@AdminOnly</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteAllUsers</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的 <code>@AdminOnly</code> 注解内部使用了 <code>@PreAuthorize</code> 来限制方法调用仅限于拥有 ‘ROLE_ADMIN’ 的用户。这样，任何标记了 <code>@AdminOnly</code> 的方法都将自动应用这一安全约束。</p>
+<h2 id="第六部分：自定义组合注解实战">第六部分：自定义组合注解实战</h2>
+<p>为了更好地理解如何实现和应用自定义组合注解，我们将通过一个实际的例子来演示整个过程。</p>
+<h3 id="步骤一：定义元注解">步骤一：定义元注解</h3>
+<p>元注解是指那些可以应用到其他注解上的注解，它们提供了关于注解行为的信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ServiceLayer &#123;</span><br><span class="line">    <span class="comment">// 这里可以定义一些通用的属性</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="步骤二：创建组合注解">步骤二：创建组合注解</h3>
+<p>创建一个新的注解，并使用元注解来声明它的保留策略和目标。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@ServiceLayer</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TransactionalService &#123;</span><br><span class="line">    <span class="comment">// 特定于此组合注解的属性</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="步骤三：使用-AliasFor处理属性别名">步骤三：使用<code>@AliasFor</code>处理属性别名</h3>
+<p>使用<code>@AliasFor</code>来声明属性之间的关联，这样可以同步修改关联属性的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@ServiceLayer</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TransactionalService &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = Transactional.class, attribute = &quot;readOnly&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">readOnly</span><span class="params">()</span> <span class="keyword">default</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = Transactional.class, attribute = &quot;timeout&quot;)</span></span><br><span class="line">    <span class="type">int</span> <span class="title function_">transactionTimeout</span><span class="params">()</span> <span class="keyword">default</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="步骤四：应用自定义组合注解">步骤四：应用自定义组合注解</h3>
+<p>将自定义组合注解应用到实际的类或方法上。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TransactionalService(readOnly = true, transactionTimeout = 120)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">// 类定义...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码示例">代码示例</h3>
+<p>结合上述步骤，下面是一个完整的代码示例，展示如何定义和使用自定义组合注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 元注解定义</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ServiceLayer &#123;</span><br><span class="line">    <span class="comment">// 元注解属性定义...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 组合注解定义</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.TYPE)</span></span><br><span class="line"><span class="meta">@ServiceLayer</span>  <span class="comment">// 应用元注解</span></span><br><span class="line"><span class="meta">@Transactional</span> <span class="comment">// 应用Spring内置注解</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TransactionalService &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = Transactional.class, attribute = &quot;readOnly&quot;)</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">readOnly</span><span class="params">()</span> <span class="keyword">default</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AliasFor(annotation = Transactional.class, attribute = &quot;timeout&quot;)</span></span><br><span class="line">    <span class="type">int</span> <span class="title function_">transactionTimeout</span><span class="params">()</span> <span class="keyword">default</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 应用组合注解到实际类</span></span><br><span class="line"><span class="meta">@TransactionalService(readOnly = true, transactionTimeout = 120)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">// Service层的业务逻辑...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>TransactionalService</code> 组合了 <code>@ServiceLayer</code> 和 <code>@Transactional</code> 注解，并且提供了 <code>readOnly</code> 和 <code>transactionTimeout</code> 两个可配置属性。当在 <code>UserService</code> 类上使用 <code>@TransactionalService</code> 注解时，我们设置了只读事务，并且指定了事务超时时间。这样，我们就能够在不同的服务层组件中重用相同的事务配置，同时保持了配置的灵活性和清晰度。</p>
+<p>好了，到此，对于Spring的组合注解功能应该是有了一定的了解了，下一篇文章重点是讨论Spring是如何实现这套机制的，希望自己能够讲清楚，别翻车…</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="../../../../index.html">首页</a></li>
+        
+          <li><a href="../../../../about/">关于</a></li>
+        
+          <li><a href="../../../../archives/">归档</a></li>
+        
+          <li><a href="../../../../tags/">标签</a></li>
+        
+          <li><a href="../../../../categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li>
+        
+          <li><a href="../../../../search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">浅析Spring组合注解(一)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E6%B3%A8%E8%A7%A3%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">第一部分：注解简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">注解的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E5%9C%A8Spring%E4%B8%AD%E7%9A%84%E8%A7%92%E8%89%B2"><span class="toc-number">1.1.2.</span> <span class="toc-text">注解在Spring中的角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="toc-number">1.1.3.</span> <span class="toc-text">注解的常见用途</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">第二部分：组合注解概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">组合注解的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8D%95%E4%B8%80%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.2.2.</span> <span class="toc-text">组合注解与单一注解的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E8%A6%81%E7%82%B9%EF%BC%9A"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">对比要点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.2.3.</span> <span class="toc-text">组合注解的优势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">第三部分：组合注解的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E6%B3%A8%E8%A7%A3%EF%BC%88Meta-annotations%EF%BC%89%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">元注解（Meta-annotations）的介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.3.2.</span> <span class="toc-text">Spring如何处理组合注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AliasFor-%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">@AliasFor 注解的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">示例：创建一个组合注解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-number">1.4.</span> <span class="toc-text">第四部分：组合注解的高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E8%A6%86%E7%9B%96%E5%92%8C%E5%88%AB%E5%90%8D%E6%9C%BA%E5%88%B6"><span class="toc-number">1.4.1.</span> <span class="toc-text">属性覆盖和别名机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E8%B0%88-AliasFor-%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">再谈@AliasFor 注解的作用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E7%BB%A7%E6%89%BF%E8%A7%84%E5%88%99"><span class="toc-number">1.4.2.</span> <span class="toc-text">组合注解的继承规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E6%B3%A8%E8%A7%A3%E5%92%8C-Repeatable%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.4.3.</span> <span class="toc-text">嵌套注解和@Repeatable注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E9%83%A8%E5%88%86%EF%BC%9A%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.5.</span> <span class="toc-text">第五部分：组合注解的应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%85%8D%E7%BD%AE%E7%B1%BB%EF%BC%88-Configuration%EF%BC%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. 配置类（@Configuration）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%EF%BC%88-Transactional%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. 事务管理（@Transactional）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Spring-Security%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.3.</span> <span class="toc-text">3. Spring Security中的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E9%83%A8%E5%88%86%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3%E5%AE%9E%E6%88%98"><span class="toc-number">1.6.</span> <span class="toc-text">第六部分：自定义组合注解实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%9A%E5%AE%9A%E4%B9%89%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.1.</span> <span class="toc-text">步骤一：定义元注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%BA%8C%EF%BC%9A%E5%88%9B%E5%BB%BA%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.2.</span> <span class="toc-text">步骤二：创建组合注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8-AliasFor%E5%A4%84%E7%90%86%E5%B1%9E%E6%80%A7%E5%88%AB%E5%90%8D"><span class="toc-number">1.6.3.</span> <span class="toc-text">步骤三：使用@AliasFor处理属性别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E5%9B%9B%EF%BC%9A%E5%BA%94%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.4.</span> <span class="toc-text">步骤四：应用自定义组合注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.6.5.</span> <span class="toc-text">代码示例</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&text=浅析Spring组合注解(一)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&is_video=false&description=浅析Spring组合注解(一)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅析Spring组合注解(一)&body=Check out this article: http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&title=浅析Spring组合注解(一)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&name=浅析Spring组合注解(一)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%B8%80/&t=浅析Spring组合注解(一)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    liliuming
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<!--
+<script src="../../../../js/main.js"></script>
+-->
+<script src="../../../.././js/main.js"></script>
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
