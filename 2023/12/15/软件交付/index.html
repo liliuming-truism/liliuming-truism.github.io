@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="软件交付 1、软件交付的四个阶段 ​	构建、发布、部署、展开(rollout) ​	构建：软件被构建成软件包，并被标记了版本，软件一旦被构建完成后，一切都不可变。 ​	发布：记录发行生命和变更日志，并将软件包传输到一个集中的存储库中。 ​	部署：已发布的软件被部署到预生产和生产环境。 ​	展开：将用户转移到新部署的软件上。 2、软件分支策略 当涉及到分支策略时，有两种常见的方式：一种是基于主分支（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件交付">
+<meta property="og:url" content="http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/index.html">
+<meta property="og:site_name" content="Truism World">
+<meta property="og:description" content="软件交付 1、软件交付的四个阶段 ​	构建、发布、部署、展开(rollout) ​	构建：软件被构建成软件包，并被标记了版本，软件一旦被构建完成后，一切都不可变。 ​	发布：记录发行生命和变更日志，并将软件包传输到一个集中的存储库中。 ​	部署：已发布的软件被部署到预生产和生产环境。 ​	展开：将用户转移到新部署的软件上。 2、软件分支策略 当涉及到分支策略时，有两种常见的方式：一种是基于主分支（">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-14T16:11:10.000Z">
+<meta property="article:modified_time" content="2023-12-14T16:11:31.112Z">
+<meta property="article:author" content="liliuming">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="../../../.././images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="../../../.././images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="../../../.././images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>软件交付</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    <!--
+<link rel="stylesheet" href="../../../../css/style.css">
+ -->
+    <link rel="stylesheet" href="../../../.././css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="../%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&text=软件交付"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&is_video=false&description=软件交付"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=软件交付&body=Check out this article: http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&name=软件交付&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&t=软件交付"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">软件交付</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="toc-number">1.1.</span> <span class="toc-text">1、软件交付的四个阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E8%BD%AF%E4%BB%B6%E5%88%86%E6%94%AF%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.</span> <span class="toc-text">2、软件分支策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%9E%84%E5%BB%BA%E7%8E%AF%E8%8A%82"><span class="toc-number">1.3.</span> <span class="toc-text">3、构建环节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%8F%91%E5%B8%83%E7%8E%AF%E8%8A%82"><span class="toc-number">1.4.</span> <span class="toc-text">4、发布环节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E9%83%A8%E7%BD%B2%E7%8E%AF%E8%8A%82"><span class="toc-number">1.5.</span> <span class="toc-text">5、部署环节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E5%B1%95%E5%BC%80%E7%8E%AF%E8%8A%82"><span class="toc-number">1.6.</span> <span class="toc-text">6、展开环节</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        软件交付
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">liliuming</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-14T16:11:10.000Z" class="dt-published" itemprop="datePublished">2023-12-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="../../../../tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1>软件交付</h1>
+<h2 id="1、软件交付的四个阶段">1、软件交付的四个阶段</h2>
+<p>​	构建、发布、部署、展开(rollout)</p>
+<p>​	构建：软件被构建成软件包，并被标记了版本，软件一旦被构建完成后，一切都不可变。</p>
+<p>​	发布：记录发行生命和变更日志，并将软件包传输到一个集中的存储库中。</p>
+<p>​	部署：已发布的软件被部署到预生产和生产环境。</p>
+<p>​	展开：将用户转移到新部署的软件上。</p>
+<h2 id="2、软件分支策略">2、软件分支策略</h2>
+<p>当涉及到分支策略时，有两种常见的方式：一种是基于主分支（通常是 <code>main</code> 或 <code>master</code> 分支）进行开发，另一种是基于特性分支进行开发。下面分别介绍这两种分支策略：</p>
+<ol>
+<li>基于主分支的开发：</li>
+</ol>
+<p>在这种策略中，主分支（通常是 <code>main</code> 或 <code>master</code>）被认为是稳定和可发布的分支。开发团队直接在主分支上进行开发，主要包括新功能的开发、bug 修复等。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li><strong>简单直接：</strong> 所有开发都在主分支上进行，简化了分支管理的复杂性。</li>
+<li><strong>快速发布：</strong> 可以更迅速地将新功能和修复发布到生产环境。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li><strong>冲突可能性：</strong> 多人同时在主分支上开发，可能会导致冲突，需要频繁的合并操作。</li>
+<li><strong>影响稳定性：</strong> 如果某个开发者的工作引入了问题，整个主分支的稳定性可能会受到影响。</li>
+</ul>
+<ol start="2">
+<li>基于特性分支的开发：</li>
+</ol>
+<p>在这种策略中，每个新功能或修复都在独立的特性分支上进行开发。一旦特性开发完成并通过测试，它们被合并回主分支。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li><strong>并行开发：</strong> 不同特性可以并行开发，减少了冲突的可能性。</li>
+<li><strong>版本控制：</strong> 每个特性分支都可以被视为一个独立的版本，有助于跟踪和管理不同的功能开发。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li><strong>合并复杂性：</strong> 特性分支合并回主分支时可能会面临较复杂的合并操作，特别是当多个特性同时修改了相同的文件时。</li>
+<li><strong>分支管理开销：</strong> 管理大量特性分支可能会增加分支管理的开销。</li>
+</ul>
+<p>如何选择：</p>
+<ul>
+<li>
+<p><strong>项目规模：</strong> 对于小型项目，基于主分支的开发可能更为简单有效。对于大型项目，特性分支策略可能更具可行性。</p>
+</li>
+<li>
+<p><strong>发布周期：</strong> 如果项目有快速迭代的发布周期，基于主分支的开发可能更适合。如果有长周期的发布，特性分支可能更为适用。</p>
+</li>
+<li>
+<p><strong>团队工作流：</strong> 团队的工作流程和合作方式也会影响选择。在团队中达成一致并根据项目的需要进行调整。</p>
+</li>
+</ul>
+<p>个人不建议使用特性分支开发，因为管理不同分支过于复杂，我们应该始终保持一个原则，即KISS原则。</p>
+<h2 id="3、构建环节">3、构建环节</h2>
+<p>1、软件依赖解决与连接</p>
+<p>2、代码质量检查</p>
+<p>3、编译</p>
+<p>4、自动化测试</p>
+<p>5、打包</p>
+<p>打包需要带版本号，软件包应该被纳入版本管理</p>
+<h2 id="4、发布环节">4、发布环节</h2>
+<p>发布是指将构建好的软件包进行管理，为下一步的部署做准备。</p>
+<p>通常是将构建好的软件包被发布到仓库</p>
+<h2 id="5、部署环节">5、部署环节</h2>
+<p>将软件自动部署到服务器，部署的过程需要保持原子性，即部署要么全部完成，要么什么都没做。如何实现这一点呢？可以在一个新的地方部署软件，当部署完成后再清除旧的已部署软件，当部署过程中出现问题，随时可以清理那个已不完整的部署环境。</p>
+<h2 id="6、展开环节">6、展开环节</h2>
+<p>即让用户访问已部署好的系统。</p>
+<p>这个过程往往有很多策略，如：特性开关、熔断器、金丝雀部署、蓝绿部署等。</p>
+<p>展开环节一个很重要的步骤就是提前定义服务水平指标(SLI，Service Level Indications)，来表明服务的健康指标，并有监控告警系统来达到这个目的。在展开的过程中如果有服务水平指标的退化，随时回退到之前的版本。</p>
+<p>上面是《程序员的README》这本书提到的内容，下面描述一下我自己对这块内容的理解：</p>
+<p>1、软件交付的整个过程应该始终朝向一个目标：所有流程全部实现自动化，因为如果需要人来介入，往往会出错。实现全部自动化很难，但是能够自动化完成的步骤，就应该通过自动化的方式来完成，这个过程也需要考虑投入产出比。</p>
+<p>2、自动化软件交付的过程往往需要开发各种工具，一些大型公司往往会有专门的团队负责这块内容，即软件效能组，专门负责提高软件开发过程中的各种效能。但是小的公司往往无法承担这部分的开销，如何解决这个问题是需要花心思去解决的。</p>
+<p>最后，列出一些可以参考的资料：</p>
+<ul>
+<li>《Git团队协作：掌握Git精髓，解决版本控制、工作流问题，实现高效开发》</li>
+<li>《持续交付：发布可靠软件的系统方法》</li>
+<li>《SRE: Google运维解密》</li>
+<li>《发布！设计与部署稳定的分布式系统》</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="../../../../index.html">首页</a></li>
+        
+          <li><a href="../../../../about/">关于</a></li>
+        
+          <li><a href="../../../../archives/">归档</a></li>
+        
+          <li><a href="../../../../tags/">标签</a></li>
+        
+          <li><a href="../../../../categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li>
+        
+          <li><a href="../../../../search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">软件交付</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="toc-number">1.1.</span> <span class="toc-text">1、软件交付的四个阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E8%BD%AF%E4%BB%B6%E5%88%86%E6%94%AF%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.</span> <span class="toc-text">2、软件分支策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%9E%84%E5%BB%BA%E7%8E%AF%E8%8A%82"><span class="toc-number">1.3.</span> <span class="toc-text">3、构建环节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%8F%91%E5%B8%83%E7%8E%AF%E8%8A%82"><span class="toc-number">1.4.</span> <span class="toc-text">4、发布环节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E9%83%A8%E7%BD%B2%E7%8E%AF%E8%8A%82"><span class="toc-number">1.5.</span> <span class="toc-text">5、部署环节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E5%B1%95%E5%BC%80%E7%8E%AF%E8%8A%82"><span class="toc-number">1.6.</span> <span class="toc-text">6、展开环节</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&text=软件交付"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&is_video=false&description=软件交付"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=软件交付&body=Check out this article: http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&title=软件交付"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&name=软件交付&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/15/%E8%BD%AF%E4%BB%B6%E4%BA%A4%E4%BB%98/&t=软件交付"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    liliuming
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<!--
+<script src="../../../../js/main.js"></script>
+-->
+<script src="../../../.././js/main.js"></script>
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
