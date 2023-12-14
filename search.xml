@@ -4,13 +4,19 @@
   
     
     <entry>
-      <title></title>
-      <link href="/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"/>
-      <url>/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/</url>
+      <title>再谈maven依赖</title>
+      <link href="/2023/12/15/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"/>
+      <url>/2023/12/15/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/</url>
       
         <content type="html"><![CDATA[<h1>再谈Maven依赖</h1><h2 id="Maven的坐标">Maven的坐标</h2><p>Maven中的任何一个构件都可以被如下几个元素一起组合被唯一的定位到</p><ul><li>groupId</li><li>artifactId</li><li>version</li><li>packaging</li></ul><h2 id="对依赖的配置">对依赖的配置</h2><p>对一个依赖的配置包含一些必选的元素和一些可选的元素</p><p>必选元素：</p><ul><li>groupId</li><li>artifacId</li><li>version</li></ul><p>可选元素：</p><ul><li>type 对应于坐标声明的packaging</li><li>scope 依赖的生效范围</li><li>optional 依赖是否可选，表示这个依赖是否会传递</li><li>exclusions 排除传递进来的依赖</li></ul><h2 id="依赖范围于依赖传递">依赖范围于依赖传递</h2><p>maven管理着三种不同的classpath，分别用于java程序在编译、测试和运行时使用，依赖范围就是控制依赖与三种classpath的关系。</p><ul><li>compile，这是依赖默认的范围，它对于编译、测试和运行时classpath都有效。</li><li>runtime，对于测试和运行时classpath有效。</li><li>provided，对于编译和测试classpath有效，但是对于运行时classpath无效。</li><li>test，只对于测试classpath有效，对于编译和运行时classpath都无效</li><li>system，与provided生效范围一致，但是它的依赖包是在指定的文件路径</li><li>import，导入依赖，不会对classpath产生影响</li></ul><p><img src="/images/maven_dependency.png" alt=""></p><h2 id="依赖调解">依赖调解</h2><p>当在一个项目中同时引入了两个不同版本的依赖，maven会经过一些策略来选择其中一个作为最后生效的那个。</p><ol><li>路径最近者优先</li><li>第一声明者优先</li></ol><h2 id="最佳实践">最佳实践</h2><p>使用 <code>mvn dependency:analyze</code> 分析项目依赖，如果出现Used undeclared dependencies类型的依赖，表示项目中没有显示声明，但是项目却直接使用了，这应该通过显示声明的方式规避掉这种依赖，因为如果没有显示声明，其依赖的版本我们并不可控，如果其版本发生了变化，可能会导致意外的结果。</p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> maven </tag>
+            
+        </tags>
       
     </entry>
     
