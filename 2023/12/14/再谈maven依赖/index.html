@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="再谈Maven依赖 Maven的坐标 Maven中的任何一个构件都可以被如下几个元素一起组合被唯一的定位到  groupId artifactId version packaging  对依赖的配置 对一个依赖的配置包含一些必选的元素和一些可选的元素 必选元素：  groupId artifacId version  可选元素：  type 对应于坐标声明的packaging scope 依赖的生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Truism World">
+<meta property="og:url" content="http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/index.html">
+<meta property="og:site_name" content="Truism World">
+<meta property="og:description" content="再谈Maven依赖 Maven的坐标 Maven中的任何一个构件都可以被如下几个元素一起组合被唯一的定位到  groupId artifactId version packaging  对依赖的配置 对一个依赖的配置包含一些必选的元素和一些可选的元素 必选元素：  groupId artifacId version  可选元素：  type 对应于坐标声明的packaging scope 依赖的生">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.truism.top/images/maven_dependency.png">
+<meta property="article:published_time" content="2023-12-14T15:59:45.792Z">
+<meta property="article:modified_time" content="2023-12-14T15:58:58.168Z">
+<meta property="article:author" content="liliuming">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.truism.top/images/maven_dependency.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="../../../.././images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="../../../.././images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="../../../.././images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Truism World</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    <!--
+<link rel="stylesheet" href="../../../../css/style.css">
+ -->
+    <link rel="stylesheet" href="../../../.././css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="../../11/%E6%B5%85%E6%9E%90Spring%E7%BB%84%E5%90%88%E6%B3%A8%E8%A7%A3-%E4%BA%8C/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&t="><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">再谈Maven依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E7%9A%84%E5%9D%90%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">Maven的坐标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BE%9D%E8%B5%96%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">对依赖的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%8C%83%E5%9B%B4%E4%BA%8E%E4%BE%9D%E8%B5%96%E4%BC%A0%E9%80%92"><span class="toc-number">1.3.</span> <span class="toc-text">依赖范围于依赖传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%B0%83%E8%A7%A3"><span class="toc-number">1.4.</span> <span class="toc-text">依赖调解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.5.</span> <span class="toc-text">最佳实践</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">liliuming</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-14T15:59:45.792Z" class="dt-published" itemprop="datePublished">2023-12-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1>再谈Maven依赖</h1>
+<h2 id="Maven的坐标">Maven的坐标</h2>
+<p>Maven中的任何一个构件都可以被如下几个元素一起组合被唯一的定位到</p>
+<ul>
+<li>groupId</li>
+<li>artifactId</li>
+<li>version</li>
+<li>packaging</li>
+</ul>
+<h2 id="对依赖的配置">对依赖的配置</h2>
+<p>对一个依赖的配置包含一些必选的元素和一些可选的元素</p>
+<p>必选元素：</p>
+<ul>
+<li>groupId</li>
+<li>artifacId</li>
+<li>version</li>
+</ul>
+<p>可选元素：</p>
+<ul>
+<li>type 对应于坐标声明的packaging</li>
+<li>scope 依赖的生效范围</li>
+<li>optional 依赖是否可选，表示这个依赖是否会传递</li>
+<li>exclusions 排除传递进来的依赖</li>
+</ul>
+<h2 id="依赖范围于依赖传递">依赖范围于依赖传递</h2>
+<p>maven管理着三种不同的classpath，分别用于java程序在编译、测试和运行时使用，依赖范围就是控制依赖与三种classpath的关系。</p>
+<ul>
+<li>compile，这是依赖默认的范围，它对于编译、测试和运行时classpath都有效。</li>
+<li>runtime，对于测试和运行时classpath有效。</li>
+<li>provided，对于编译和测试classpath有效，但是对于运行时classpath无效。</li>
+<li>test，只对于测试classpath有效，对于编译和运行时classpath都无效</li>
+<li>system，与provided生效范围一致，但是它的依赖包是在指定的文件路径</li>
+<li>import，导入依赖，不会对classpath产生影响</li>
+</ul>
+<p><img src="/images/maven_dependency.png" alt=""></p>
+<h2 id="依赖调解">依赖调解</h2>
+<p>当在一个项目中同时引入了两个不同版本的依赖，maven会经过一些策略来选择其中一个作为最后生效的那个。</p>
+<ol>
+<li>路径最近者优先</li>
+<li>第一声明者优先</li>
+</ol>
+<h2 id="最佳实践">最佳实践</h2>
+<p>使用 <code>mvn dependency:analyze</code> 分析项目依赖，如果出现Used undeclared dependencies类型的依赖，表示项目中没有显示声明，但是项目却直接使用了，这应该通过显示声明的方式规避掉这种依赖，因为如果没有显示声明，其依赖的版本我们并不可控，如果其版本发生了变化，可能会导致意外的结果。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="../../../../index.html">首页</a></li>
+        
+          <li><a href="../../../../about/">关于</a></li>
+        
+          <li><a href="../../../../archives/">归档</a></li>
+        
+          <li><a href="../../../../tags/">标签</a></li>
+        
+          <li><a href="../../../../categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li>
+        
+          <li><a href="../../../../search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">再谈Maven依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E7%9A%84%E5%9D%90%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">Maven的坐标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BE%9D%E8%B5%96%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">对依赖的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%8C%83%E5%9B%B4%E4%BA%8E%E4%BE%9D%E8%B5%96%E4%BC%A0%E9%80%92"><span class="toc-number">1.3.</span> <span class="toc-text">依赖范围于依赖传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%B0%83%E8%A7%A3"><span class="toc-number">1.4.</span> <span class="toc-text">依赖调解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.5.</span> <span class="toc-text">最佳实践</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://www.truism.top/2023/12/14/%E5%86%8D%E8%B0%88maven%E4%BE%9D%E8%B5%96/&t="><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    liliuming
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="../../../../index.html">首页</a></li><!--
+     --><!--
+       --><li><a href="../../../../about/">关于</a></li><!--
+     --><!--
+       --><li><a href="../../../../archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="../../../../tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="../../../../categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/liliuming-truism">项目</a></li><!--
+     --><!--
+       --><li><a href="../../../../search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<!--
+<script src="../../../../js/main.js"></script>
+-->
+<script src="../../../.././js/main.js"></script>
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
